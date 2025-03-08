@@ -1,0 +1,29 @@
+.hero-div {
+  position: relative;
+  overflow-x: clip;
+  width: 100vw;
+  height: 80vh;
+  font-size: 1.6rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 2vw;
+}
+
+.hero-div h1 {
+  font-size: 4.5rem;
+}
+
+.hero-div video {
+  object-fit: cover;
+  width: 100vw;
+  height: 80vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
+.home {
+  position: relative;
+}

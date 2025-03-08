@@ -9,6 +9,11 @@ app.listen(process.env.PORT || 8080, () => {
   console.log("this runs");
 });
 app.use(cors({ origin: process.env.FRONT }));
-app.use("/img", express.static("./uploads/"));
+app.use("/cruiseimg", express.static("./uploads/"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+app.post("/dummy", (req, res) => {
+  dat = req.body;
+  res.json({ ...dat, suc: "success" });
+});

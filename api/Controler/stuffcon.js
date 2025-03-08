@@ -13,9 +13,9 @@ const LoginStuff = async (req, res) => {
       res.json({
         status: "success",
         user: {
-          uid: user._id,
+          username: user.username,
           name: user.name,
-          room: user.room,
+          role: user.role,
         },
       });
     } else {

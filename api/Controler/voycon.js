@@ -17,7 +17,7 @@ const LoginVoy = async (req, res) => {
       res.json({
         status: "success",
         user: {
-          uid: user._id,
+          _id: user._id,
           name: user.name,
           room: user.room,
           token: token,
@@ -45,7 +45,7 @@ const LogiViaTok = async (req, res) => {
         res.json({
           status: "success",
           user: {
-            uid: user._id,
+            _id: user._id,
             name: user.name,
             room: user.room,
             token: token,
