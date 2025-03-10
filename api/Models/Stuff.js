@@ -21,5 +21,5 @@ const StuffSchema = new mongoose.Schema({
   },
 });
 
-const StuffModel = mongoose.model("voyager", StuffSchema);
+const StuffModel = mongoose.model("stuff", StuffSchema);
 module.exports = StuffModel;

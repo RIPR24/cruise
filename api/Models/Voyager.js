@@ -8,9 +8,7 @@ const VoySchema = new mongoose.Schema(
     },
     age: Number,
     _id: {
-      unique: true,
       type: String,
-      required: true,
     },
     password: {
       required: true,

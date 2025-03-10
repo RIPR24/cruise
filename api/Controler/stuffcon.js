@@ -4,15 +4,15 @@ require("dotenv").config();
 const sid = new Map();
 
 const LoginStuff = async (req, res) => {
-  const { username, pass } = req.body;
-  const user = StuffModel.findById(username);
-  if (user) {
+  const { username, password } = req.body;
+  const [user] = await StuffModel.find({ username: username });
+  if (user && password) {
     const cpass = createHmac("sha256", process.env.KEY)
-      .update(pass)
+      .update(password)
       .digest("hex");
     if (cpass === user.password) {
       const token = randomBytes(32).toString("hex");
-      sid.set(user.username, token);
+      sid.set(user.username, { tok: token, rol: user.role });
       res.json({
         status: "success",
         user: {
@@ -33,7 +33,8 @@ const LoginStuff = async (req, res) => {
 const RegisterStuff = async (req, res) => {
   let dat = req.body;
   try {
-    if (await StuffModel.findById(dat.username)) {
+    const us = await StuffModel.find({ username: dat.username });
+    if (us.length > 0) {
       res.json({ status: "User already exist" });
     } else {
       dat.password = createHmac("sha256", process.env.KEY)
@@ -49,12 +50,12 @@ const RegisterStuff = async (req, res) => {
 };
 
 const validateStuff = (req, res, next) => {
-  const { username, token } = req.body;
-  const tok = sid.get(username);
-  if (tok && tok === token) {
+  const { username, token, role } = req.body;
+  const { tok, rol } = sid.get(username);
+  if (tok && tok === token && role === rol) {
     next();
   } else {
-    res.json({ status: "unauthorised Access", code: 501 });
+    res.json({ status: "unauthorised Access", code: 401 });
   }
 };
 

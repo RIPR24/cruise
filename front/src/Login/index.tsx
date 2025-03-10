@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import "./log.css";
 import logo from "../assets/cruise.svg";
 import { useNavigate } from "react-router-dom";
 import { postReq } from "../Utils/request";
+import { CruiseContext } from "../Context/AppContext";
 
 type info = {
   username: string;
@@ -11,6 +12,7 @@ type info = {
 
 const Login = ({ voy }: { voy: boolean }) => {
   const [disable, setDisable] = useState(false);
+  const { setUser } = useContext(CruiseContext);
   const navigate = useNavigate();
   const [prob, setProb] = useState("");
   const [info, setInfo] = useState<info>({
@@ -29,6 +31,9 @@ const Login = ({ voy }: { voy: boolean }) => {
     if (res) {
       if (res.status !== "success") {
         setProb(res.status);
+      } else {
+        if (setUser) setUser(res.user);
+        if (res.user?.role === "admin") navigate("/admin/select");
       }
     }
   };

@@ -11,5 +11,5 @@ const OrderSchema = new mongoose.Schema({
   uid: { type: String, required: true },
 });
 
-const OrderModel = mongoose.model("order", OrderSchema);
+const OrderModel = mongoose.model("orders", OrderSchema);
 module.exports = OrderModel;
