@@ -1,3 +1,4 @@
+const { OrderStuff } = require("../Controler/stationarycon");
 const {
   LoginVoy,
   LogiViaTok,
@@ -13,3 +14,6 @@ voyroute.post("/logintok", LogiViaTok);
 voyroute.post("/register", RergisterVoy);
 voyroute.post("/getinfo", GetVoyInfo);
 voyroute.get("/all", GetAllVoy);
+voyroute.post("/order", OrderStuff);
+
+module.exports = voyroute;

@@ -2,9 +2,12 @@ const mongoose = require("mongoose");
 
 const OrderSchema = new mongoose.Schema({
   food: { required: true, type: Boolean },
-  items: [{ name: String, price: Number }],
+  items: [{ name: String, qnt: Number, price: Number }],
+  time: String,
+  status: String,
   total: Number,
-  userName: String,
+  user_Name: String,
+  room: String,
   uid: { type: String, required: true },
 });
 

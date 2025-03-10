@@ -60,42 +60,47 @@ const LogiViaTok = async (req, res) => {
 
 const RergisterVoy = async (req, res) => {
   let dat = req.body;
-  if (await VoyagerModel.findById(dat._id)) {
-    res.json({ status: "User already exist" });
-  } else {
-    let iv = dat._id + dat._id + dat._id + dat._id;
-    iv = iv.substring(0, 16);
-    dat.password = createHmac("sha256", process.env.KEY)
-      .update(dat.password)
-      .digest("hex");
-    const cipher = createCipheriv(
-      "aes-192-cbc",
-      Buffer.from(process.env.EKEY, "hex"),
-      iv
-    );
-    let cred = cipher.update(dat.cred);
-    cred += cipher.final("hex");
-    dat.cred = cred;
-    const cipher1 = createCipheriv(
-      "aes-192-cbc",
-      Buffer.from(process.env.EKEY, "hex"),
-      iv
-    );
-    let ph = cipher1.update(dat.ph);
-    ph += cipher1.final("hex");
-    dat.ph = ph;
-    if (dat.address) {
-      const cipher2 = createCipheriv(
+  try {
+    if (await VoyagerModel.findById(dat._id)) {
+      res.json({ status: "User already exist" });
+    } else {
+      let iv = dat._id + dat._id + dat._id + dat._id;
+      iv = iv.substring(0, 16);
+      dat.password = createHmac("sha256", process.env.KEY)
+        .update(dat.password)
+        .digest("hex");
+      const cipher = createCipheriv(
         "aes-192-cbc",
         Buffer.from(process.env.EKEY, "hex"),
         iv
       );
-      let ad = cipher2.update(dat.address);
-      ad += cipher2.final("hex");
-      dat.address = ad;
+      let cred = cipher.update(dat.cred);
+      cred += cipher.final("hex");
+      dat.cred = cred;
+      const cipher1 = createCipheriv(
+        "aes-192-cbc",
+        Buffer.from(process.env.EKEY, "hex"),
+        iv
+      );
+      let ph = cipher1.update(dat.ph);
+      ph += cipher1.final("hex");
+      dat.ph = ph;
+      if (dat.address) {
+        const cipher2 = createCipheriv(
+          "aes-192-cbc",
+          Buffer.from(process.env.EKEY, "hex"),
+          iv
+        );
+        let ad = cipher2.update(dat.address);
+        ad += cipher2.final("hex");
+        dat.address = ad;
+      }
+      const user = await VoyagerModel.create(dat);
+      res.json({ status: "success", user });
     }
-    const user = await VoyagerModel.create(dat);
-    res.json({ status: "success", user });
+  } catch (error) {
+    console.log(error);
+    res.json({ status: "failed", error });
   }
 };
 
