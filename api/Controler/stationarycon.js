@@ -5,7 +5,7 @@ const multer = require("multer");
 const OrderModel = require("../Models/Order.js");
 
 const storage = multer.diskStorage({
-  destination: "../uploads/statonary",
+  destination: "./uploads/statonary",
   filename: function (req, file, cb) {
     cb(
       null,
@@ -28,6 +28,7 @@ const CreateViaLink = async (req, res) => {
       const dat = await StationaryModel.create({
         name: data.name,
         price: data.price,
+        food: data.food,
         tags: data.tags || [],
         description: data.description || "",
         img: data.description || "",
@@ -49,7 +50,8 @@ const CreateViaImg = async (req, res) => {
       const dat = await StationaryModel.create({
         name: data.name,
         price: data.price,
-        tags: data.tags || [],
+        food: data.food === "true",
+        tags: JSON.parse(data.tags) || [],
         description: data.description || "",
         img: `cruiseimg/statonary/${req.file.filename}`,
       });
@@ -65,11 +67,12 @@ const CreateViaImg = async (req, res) => {
 
 const ModifySta = async (req, res) => {
   const data = req.body;
-  let item = await StationaryModel.findById(data.uid);
+  let item = await StationaryModel.findById(data._id);
   if (item) {
     item.name = data.name;
     item.description = data.description;
     item.price = data.price;
+    item.tags = data.tags;
     await item.save();
     res.json({ status: "success", item });
   } else {
@@ -77,9 +80,33 @@ const ModifySta = async (req, res) => {
   }
 };
 
+const DeleteSta = async (req, res) => {
+  try {
+    const { _id } = req.body;
+    let item = await StationaryModel.findById(_id);
+    if (item) {
+      if (item.img.substring(19, 25) === "stat_") {
+        fs.unlink(`../upload/${item.img}`, (err) => {
+          console.log(err);
+        });
+      }
+      const status = await StationaryModel.findByIdAndDelete(_id);
+      if (sta) {
+        res.json({ status });
+      } else {
+        res.json({ status: "interesting" });
+      }
+      res.json({ status: "No item found" });
+    }
+  } catch (error) {
+    console.log(error);
+    res.json({ status: "failed", error });
+  }
+};
+
 const ModifyStaImg = async (req, res) => {
   const data = req.body;
-  let item = await StationaryModel.findById(data.uid);
+  let item = await StationaryModel.findById(data._id);
   if (item) {
     if (item.img.substring(19, 25) === "stat_") {
       fs.unlink(`../upload/${item.img}`, (err) => {
@@ -132,4 +159,5 @@ module.exports = {
   OrderStuff,
   getAllOrder,
   getAllOrderUID,
+  DeleteSta,
 };

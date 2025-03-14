@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 const StationarySchema = new mongoose.Schema({
   name: { type: String, required: true, unique: true },
+  food: { type: Boolean, required: true },
   price: { type: Number, required: true },
   tags: [String],
   description: String,

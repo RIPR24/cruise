@@ -9,6 +9,7 @@ import ModStaItems from "../Admin/ModStaItems";
 import AddFoodItems from "../Admin/AddFoodItems";
 import ModFoodItems from "../Admin/ModFoodItems";
 import AddVoy from "../Admin/AddVoy";
+import VoyagerInfo from "../Admin/VoyagerInfo";
 
 export const AppRouter = createBrowserRouter([
   {
@@ -35,34 +36,33 @@ export const AppRouter = createBrowserRouter([
     element: <AdminInd />,
     children: [
       {
-        path: "/admin/select",
+        path: "/admin/",
         element: <OptionAdmin />,
         index: true,
       },
       {
         path: "/admin/addsta",
         element: <AddStaItems />,
-        index: true,
       },
       {
         path: "/admin/modsta",
         element: <ModStaItems />,
-        index: true,
       },
       {
         path: "/admin/addfood",
         element: <AddFoodItems />,
-        index: true,
       },
       {
         path: "/admin/modfood",
         element: <ModFoodItems />,
-        index: true,
       },
       {
         path: "/admin/addvoy",
         element: <AddVoy />,
-        index: true,
+      },
+      {
+        path: "/admin/voy",
+        element: <VoyagerInfo />,
       },
     ],
   },

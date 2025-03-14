@@ -18,7 +18,7 @@ const VoySchema = new mongoose.Schema(
     address: String,
     credType: String,
     cred: String,
-    ph: Number,
+    ph: String,
   },
   { _id: false }
 );

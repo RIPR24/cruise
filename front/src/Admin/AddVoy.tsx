@@ -1,5 +1,8 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import logo from "../assets/cruise.svg";
+import { postReq } from "../Utils/request";
+import { useNavigate } from "react-router-dom";
+import { CruiseContext } from "../Context/AppContext";
 
 type info = {
   _id: string;
@@ -15,6 +18,8 @@ type info = {
 
 const AddVoy = () => {
   const [disable, setDisable] = useState(false);
+  const { user, setUser } = useContext(CruiseContext);
+  const navigate = useNavigate();
   const [prob, setProb] = useState("");
   const [info, setInfo] = useState<info>({
     _id: "",
@@ -30,11 +35,26 @@ const AddVoy = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value;
-    setInfo({ ...info, [e.target.id]: val });
+    setInfo((pre) => ({ ...pre, [e.target.id]: val }));
   };
 
   const addVoyager = async () => {
     setDisable(true);
+    const res = await postReq("admin/voyager", {
+      ...info,
+      token: user?.token,
+      username: user?.username,
+      role: user?.role,
+    });
+    if (res?.status === "success") {
+      navigate("/admin");
+    }
+    if (res?.status) setProb(res.status);
+    if (res?.code === 401) {
+      if (setUser) setUser(null);
+      navigate("/stufflogin");
+    }
+    setDisable(false);
   };
 
   return (

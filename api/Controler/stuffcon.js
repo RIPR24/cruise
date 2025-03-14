@@ -51,8 +51,8 @@ const RegisterStuff = async (req, res) => {
 
 const validateStuff = (req, res, next) => {
   const { username, token, role } = req.body;
-  const { tok, rol } = sid.get(username);
-  if (tok && tok === token && role === rol) {
+  const usr = sid.get(username);
+  if (usr?.tok && usr.tok === token && role === usr.rol) {
     next();
   } else {
     res.json({ status: "unauthorised Access", code: 401 });

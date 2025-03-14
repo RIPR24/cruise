@@ -33,7 +33,7 @@ const Login = ({ voy }: { voy: boolean }) => {
         setProb(res.status);
       } else {
         if (setUser) setUser(res.user);
-        if (res.user?.role === "admin") navigate("/admin/select");
+        if (res.user?.role === "admin") navigate("/admin");
       }
     }
   };
