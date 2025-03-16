@@ -5,6 +5,7 @@ const cors = require("cors");
 const adminroute = require("./Routes/adminroute");
 const stuffroute = require("./Routes/stuffroute");
 const voyroute = require("./Routes/voyroute");
+const itemroute = require("./Routes/itemroute");
 require("dotenv").config();
 
 connect(process.env.MD_URI);
@@ -19,6 +20,7 @@ app.use(express.json());
 app.use("/admin", adminroute);
 app.use("/stuff", stuffroute);
 app.use("/voy", voyroute);
+app.use("/item", itemroute);
 
 app.post("/dummy", (req, res) => {
   dat = req.body;

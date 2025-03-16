@@ -13,7 +13,7 @@ type info = {
   food: boolean;
 };
 
-const AddStaItems = () => {
+const AddStaItems = ({ food }: { food: boolean }) => {
   const [disable, setDisable] = useState(false);
   const { user, setUser } = useContext(CruiseContext);
   const navigate = useNavigate();
@@ -24,7 +24,7 @@ const AddStaItems = () => {
     price: 0,
     tags: [],
     description: "",
-    food: false,
+    food,
   });
   const imgref = useRef<HTMLInputElement | null>(null);
   const tagref = useRef<HTMLInputElement | null>(null);
@@ -32,7 +32,7 @@ const AddStaItems = () => {
   const addTag = () => {
     setInfo((pre) => {
       if (tagref.current) {
-        const val = tagref.current.value;
+        const val = tagref.current.value.toLowerCase();
         if (val.length > 0 && !pre.tags.includes(val)) {
           const tags = [...pre.tags, val];
           tagref.current.value = "";
@@ -82,14 +82,14 @@ const AddStaItems = () => {
         const dat = {
           ...info,
           token: user?.token,
-          username: user?.name,
+          username: user?.username,
           role: user?.role,
           img: imgref.current?.value || "",
         };
         data = await postReq("admin/sta", dat);
       }
       if (data.status === "success") {
-        navigate("/admin");
+        setInfo((pre) => ({ ...pre, name: "", price: 0 }));
       } else {
         if (data.code === 401) {
           if (setUser) setUser(null);
@@ -157,7 +157,8 @@ const AddStaItems = () => {
               id="description"
             />
           </div>
-          <div>
+          <div style={{ display: "flex", gap: 10 }}>
+            <p>IMAGE </p>
             <select
               name="imglnk"
               onChange={(e) => {

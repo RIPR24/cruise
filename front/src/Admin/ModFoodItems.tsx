@@ -1,9 +1,10 @@
-import { useContext, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { CruiseContext } from "../Context/AppContext";
 import { useNavigate } from "react-router-dom";
 import logo from "../assets/cruise.svg";
 import clo from "../assets/close.svg";
-import { postReq, site } from "../Utils/request";
+import { delReq, postReq, putReq, site } from "../Utils/request";
+import SrchdrpDown from "../Reusable/SrchdrpDown";
 
 type info = {
   _id: string;
@@ -14,24 +15,29 @@ type info = {
   food: boolean;
 };
 
-const def = {
-  _id: "",
-  name: "",
-  price: 0,
-  tags: [],
-  description: "",
-  food: false,
-};
-
-const ModFoodItems = () => {
+const ModFoodItems = ({ food }: { food: boolean }) => {
+  const def = {
+    _id: "",
+    name: "",
+    price: 0,
+    tags: [],
+    description: "",
+    food,
+  };
   const [disable, setDisable] = useState(false);
   const { user, setUser } = useContext(CruiseContext);
   const navigate = useNavigate();
   const [prob, setProb] = useState("");
   const [img, setImg] = useState(false);
   const [info, setInfo] = useState<info>(def);
+  const [starr, setStarr] = useState<info[]>([]);
   const imgref = useRef<HTMLInputElement | null>(null);
   const tagref = useRef<HTMLInputElement | null>(null);
+
+  const getData = async () => {
+    const data = await postReq("item/getsta", { food });
+    setStarr(data.sta);
+  };
 
   const addTag = () => {
     setInfo((pre) => {
@@ -61,7 +67,7 @@ const ModFoodItems = () => {
     setInfo((pre) => ({ ...pre, [e.target.id]: val }));
   };
 
-  const addStationary = async () => {
+  const modStationary = async () => {
     setDisable(true);
     if (info._id.length > 0) {
       let data;
@@ -71,7 +77,7 @@ const ModFoodItems = () => {
         dat.append("file", imgref.current.files[0]);
 
         const res = await fetch(site + "admin/staimg", {
-          method: "POST",
+          method: "PUT",
           body: dat,
         });
         data = await res.json();
@@ -79,7 +85,7 @@ const ModFoodItems = () => {
         const dat = {
           _id: info._id,
           token: user?.token,
-          username: user?.name,
+          username: user?.username,
           role: user?.role,
           img: imgref.current?.value || "",
         };
@@ -100,6 +106,47 @@ const ModFoodItems = () => {
 
     setDisable(false);
   };
+
+  const delEl = async () => {
+    const res = await delReq("admin/sta", {
+      _id: info._id,
+      token: user?.token,
+      username: user?.username,
+      role: user?.role,
+    });
+    if (res.status === "success") {
+      setInfo(def);
+    } else {
+      if (res.code === 401) {
+        if (setUser) setUser(null);
+        navigate("/stufflogin");
+      }
+      setProb(res.status || "");
+    }
+  };
+
+  const modEl = async () => {
+    const res = await putReq("admin/sta", {
+      ...info,
+      token: user?.token,
+      username: user?.username,
+      role: user?.role,
+    });
+    if (res.status === "success") {
+      setInfo(def);
+    } else {
+      if (res.code === 401) {
+        if (setUser) setUser(null);
+        navigate("/stufflogin");
+      }
+      setProb(res.status || "");
+    }
+  };
+
+  useEffect(() => {
+    getData();
+  });
+
   return (
     <div
       style={{
@@ -110,15 +157,25 @@ const ModFoodItems = () => {
       }}
     >
       <div className="admin-con">
-        <h1>ADD STATIONARY ITEM</h1>
+        <h1>MODIFY ITEM</h1>
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <h2>SELECT ITEM</h2>
+          <SrchdrpDown state={starr} setState={setInfo} />
+        </div>
         <div className="regcon">
           <img src={logo} style={{ height: 45, width: 45 }} />
           <div className="sta-inp-con">
+            {info._id.length > 5 && (
+              <button onClick={delEl} className="prm rc">
+                DELETE
+              </button>
+            )}
             <label htmlFor="name">NAME :</label>
             <input
               type="text"
               placeholder="NAME"
               onChange={handleChange}
+              value={info.name}
               name="name"
               id="name"
             />
@@ -127,6 +184,7 @@ const ModFoodItems = () => {
               type="number"
               placeholder="price"
               onChange={handleChange}
+              value={info.price}
               name="price"
               id="price"
             />
@@ -146,15 +204,24 @@ const ModFoodItems = () => {
                   </div>
                 ))}
             </div>
-            <label htmlFor="description"> DOCUMENT NO :</label>
+            <label htmlFor="description"> DESCRIPTION :</label>
             <textarea
               placeholder="DESCRIPTION"
+              value={info.description}
               onChange={handleChange}
               name="description"
               id="description"
             />
           </div>
-          <div>
+          {info._id.length > 5 && (
+            <button onClick={modEl} className="prm">
+              UPDATE
+            </button>
+          )}
+        </div>
+        <div className="regcon">
+          <div style={{ display: "flex", gap: 10 }}>
+            <p>IMAGE </p>
             <select
               name="imglnk"
               onChange={(e) => {
@@ -168,17 +235,19 @@ const ModFoodItems = () => {
             <input ref={imgref} type={img ? "file" : "text"} />
           </div>
           <p style={{ color: "red" }}>{prob}</p>
-          <button
-            disabled={disable}
-            className={disable ? "disb" : "prm"}
-            onClick={() => {
-              if (!disable) {
-                addStationary();
-              }
-            }}
-          >
-            ADD ITEM
-          </button>
+          {info._id.length > 5 && (
+            <button
+              disabled={disable}
+              className={disable ? "disb" : "prm"}
+              onClick={() => {
+                if (!disable) {
+                  modStationary();
+                }
+              }}
+            >
+              MODIFY IMAGE
+            </button>
+          )}
         </div>
       </div>
     </div>

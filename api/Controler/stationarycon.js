@@ -138,6 +138,12 @@ const OrderStuff = async (req, res) => {
   }
 };
 
+const getAllSta = async (req, res) => {
+  const food = req.body.food;
+  const sta = await StationaryModel.find({ food: food });
+  res.json({ sta });
+};
+
 const getAllOrder = async (req, res) => {
   const food = req.body.food;
   const orders = await OrderModel.find({ food: food });
@@ -160,4 +166,5 @@ module.exports = {
   getAllOrder,
   getAllOrderUID,
   DeleteSta,
+  getAllSta,
 };

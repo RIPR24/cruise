@@ -5,8 +5,6 @@ import Login from "../Login";
 import AdminInd from "../Admin";
 import OptionAdmin from "../Admin/OptionAdmin";
 import AddStaItems from "../Admin/AddStaItems";
-import ModStaItems from "../Admin/ModStaItems";
-import AddFoodItems from "../Admin/AddFoodItems";
 import ModFoodItems from "../Admin/ModFoodItems";
 import AddVoy from "../Admin/AddVoy";
 import VoyagerInfo from "../Admin/VoyagerInfo";
@@ -42,19 +40,19 @@ export const AppRouter = createBrowserRouter([
       },
       {
         path: "/admin/addsta",
-        element: <AddStaItems />,
+        element: <AddStaItems food={false} />,
       },
       {
         path: "/admin/modsta",
-        element: <ModStaItems />,
+        element: <ModFoodItems food={false} />,
       },
       {
         path: "/admin/addfood",
-        element: <AddFoodItems />,
+        element: <AddStaItems food={true} />,
       },
       {
         path: "/admin/modfood",
-        element: <ModFoodItems />,
+        element: <ModFoodItems food={true} />,
       },
       {
         path: "/admin/addvoy",

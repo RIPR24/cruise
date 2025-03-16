@@ -52,3 +52,46 @@ button:hover {
   border: 1px solid rgb(116, 212, 180);
   color: #011e29;
 }
+
+.srch-drop-con {
+  position: relative;
+  width: 260px;
+}
+
+.srch-drop-con input {
+  height: 35px;
+  width: 100%;
+  font-size: 1.2rem;
+  padding: 4px 10px;
+  border-radius: 6px;
+  margin: 10px;
+}
+
+.drp-dwn {
+  position: absolute;
+  top: 45px;
+  left: 18px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.dd {
+  padding: 2px 5px;
+  font-size: 1.2rem;
+  background-color: azure;
+  width: 90%;
+  cursor: pointer;
+  z-index: 1;
+}
+.fcs {
+  background-color: aquamarine;
+  color: #011e29;
+}
+
+.rc {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
