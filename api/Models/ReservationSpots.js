@@ -8,6 +8,7 @@ const ResSpotSchema = new mongoose.Schema({
       to: String,
       price: Number,
       max: Number,
+      sid: String,
     },
   ],
 });

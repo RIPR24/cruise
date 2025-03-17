@@ -8,6 +8,7 @@ import AddStaItems from "../Admin/AddStaItems";
 import ModFoodItems from "../Admin/ModFoodItems";
 import AddVoy from "../Admin/AddVoy";
 import VoyagerInfo from "../Admin/VoyagerInfo";
+import ModBookingCenter from "../Admin/ModBookingCenter";
 
 export const AppRouter = createBrowserRouter([
   {
@@ -61,6 +62,10 @@ export const AppRouter = createBrowserRouter([
       {
         path: "/admin/voy",
         element: <VoyagerInfo />,
+      },
+      {
+        path: "/admin/rs",
+        element: <ModBookingCenter />,
       },
     ],
   },

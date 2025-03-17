@@ -9,7 +9,7 @@ const bookSlot = async (req, res) => {
   if (usr && slt) {
     const bk = await BookingModel.find({
       date: data.date,
-      slot: data.slot,
+      sid: data.sid,
       rsid: data.rsid,
     });
     if (bk.length < slt.slots.max || 1) {

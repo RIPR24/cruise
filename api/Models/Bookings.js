@@ -7,6 +7,7 @@ const BookingSchema = new mongoose.Schema({
   name: String,
   time: String,
   slot: String,
+  sid: String,
   date: String,
 });
 

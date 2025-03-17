@@ -25,6 +25,10 @@ const route = [
     name: "VOYAGER INFO",
     path: "/admin/voy",
   },
+  {
+    name: "BOOKING CENTER",
+    path: "/admin/rs",
+  },
 ];
 
 const OptionAdmin = () => {

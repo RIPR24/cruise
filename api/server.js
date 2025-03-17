@@ -5,6 +5,7 @@ const cors = require("cors");
 const adminroute = require("./Routes/adminroute");
 const stuffroute = require("./Routes/stuffroute");
 const voyroute = require("./Routes/voyroute");
+const rsroute = require("./Routes/rsroute");
 const itemroute = require("./Routes/itemroute");
 require("dotenv").config();
 
@@ -20,6 +21,7 @@ app.use(express.json());
 app.use("/admin", adminroute);
 app.use("/stuff", stuffroute);
 app.use("/voy", voyroute);
+app.use("/rs", rsroute);
 app.use("/item", itemroute);
 
 app.post("/dummy", (req, res) => {
