@@ -74,6 +74,9 @@ const ModFoodItems = ({ food }: { food: boolean }) => {
       if (img && imgref.current?.files && imgref.current.files[0]) {
         const dat = new FormData();
         dat.append("_id", info._id);
+        dat.append("token", user?.token || "");
+        dat.append("username", user?.username || "");
+        dat.append("role", user?.role || "");
         dat.append("file", imgref.current.files[0]);
 
         const res = await fetch(site + "admin/staimg", {
@@ -89,7 +92,7 @@ const ModFoodItems = ({ food }: { food: boolean }) => {
           role: user?.role,
           img: imgref.current?.value || "",
         };
-        data = await postReq("admin/sta", dat);
+        data = await putReq("admin/stalink", dat);
       }
       if (data.status === "success") {
         navigate("/admin");
@@ -101,6 +104,7 @@ const ModFoodItems = ({ food }: { food: boolean }) => {
         setProb(data.status || "");
       }
     } else {
+      console.log(info);
       setProb("enter name and price");
     }
 

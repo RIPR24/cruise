@@ -6,6 +6,7 @@ const {
   ModifySta,
   ModifyStaImg,
   DeleteSta,
+  ModifyStaLink,
 } = require("../Controler/stationarycon");
 const { validateStuff } = require("../Controler/stuffcon");
 const { RergisterVoy, GetVoyInfo } = require("../Controler/voycon");
@@ -20,5 +21,6 @@ adminroute.post("/staimg", upload.single("file"), validateStuff, CreateViaImg);
 adminroute.put("/sta", validateStuff, ModifySta);
 adminroute.put("/rs", validateStuff, modifyResSlot);
 adminroute.put("/staimg", upload.single("file"), validateStuff, ModifyStaImg);
+adminroute.put("/stalink", validateStuff, ModifyStaLink);
 
 module.exports = adminroute;

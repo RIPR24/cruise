@@ -89,7 +89,7 @@ const AddStaItems = ({ food }: { food: boolean }) => {
         data = await postReq("admin/sta", dat);
       }
       if (data.status === "success") {
-        setInfo((pre) => ({ ...pre, name: "", price: 0 }));
+        setInfo((pre) => ({ ...pre, name: "", price: 0, description: "" }));
       } else {
         if (data.code === 401) {
           if (setUser) setUser(null);
@@ -121,6 +121,7 @@ const AddStaItems = ({ food }: { food: boolean }) => {
             <input
               type="text"
               placeholder="NAME"
+              value={info.name}
               onChange={handleChange}
               name="name"
               id="name"
@@ -129,6 +130,7 @@ const AddStaItems = ({ food }: { food: boolean }) => {
             <input
               type="number"
               placeholder="price"
+              value={info.price}
               onChange={handleChange}
               name="price"
               id="price"
@@ -152,6 +154,7 @@ const AddStaItems = ({ food }: { food: boolean }) => {
             <label htmlFor="description"> DOCUMENT NO :</label>
             <textarea
               placeholder="DESCRIPTION"
+              value={info.description}
               onChange={handleChange}
               name="description"
               id="description"

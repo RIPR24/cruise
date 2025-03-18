@@ -31,7 +31,7 @@ const CreateViaLink = async (req, res) => {
         food: data.food,
         tags: data.tags || [],
         description: data.description || "",
-        img: data.description || "",
+        img: data.img || "",
       });
       res.json({ status: "success", dat });
     } else {
@@ -113,11 +113,24 @@ const ModifyStaImg = async (req, res) => {
         console.log(err);
       });
     }
-    if (req.file.filename) {
-      item.img = `cruiseimg/statonary/${req.file.filename}`;
-    } else {
-      item.img = data.img;
+    item.img = `cruiseimg/statonary/${req.file.filename}`;
+    await item.save();
+    res.json({ status: "success", item });
+  } else {
+    res.json({ status: "enter details properly" });
+  }
+};
+
+const ModifyStaLink = async (req, res) => {
+  const data = req.body;
+  let item = await StationaryModel.findById(data._id);
+  if (item) {
+    if (item.img.substring(19, 25) === "stat_") {
+      fs.unlink(`../upload/${item.img}`, (err) => {
+        console.log(err);
+      });
     }
+    item.img = data.img;
     await item.save();
     res.json({ status: "success", item });
   } else {
@@ -167,4 +180,5 @@ module.exports = {
   getAllOrderUID,
   DeleteSta,
   getAllSta,
+  ModifyStaLink,
 };
