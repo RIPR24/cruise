@@ -4,11 +4,11 @@ require("dotenv").config();
 const jwt = require("jsonwebtoken");
 
 const LoginVoy = async (req, res) => {
-  const { username, pass } = req.body;
-  const user = VoyagerModel.findById(username);
+  const { username, password } = req.body;
+  const user = await VoyagerModel.findById(username);
   if (user) {
     const cpass = createHmac("sha256", process.env.KEY)
-      .update(pass)
+      .update(password)
       .digest("hex");
     if (cpass === user.password) {
       const token = jwt.sign({ id: username }, process.env.ACCESS_TOKEN, {

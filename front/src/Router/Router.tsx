@@ -9,6 +9,8 @@ import ModFoodItems from "../Admin/ModFoodItems";
 import AddVoy from "../Admin/AddVoy";
 import VoyagerInfo from "../Admin/VoyagerInfo";
 import ModBookingCenter from "../Admin/ModBookingCenter";
+import Voyind from "../Voyager";
+import SelectVoy from "../Voyager/SelectVoy";
 
 export const AppRouter = createBrowserRouter([
   {
@@ -26,6 +28,25 @@ export const AppRouter = createBrowserRouter([
       },
       {
         path: "/stufflogin",
+        element: <Login voy={false} />,
+      },
+    ],
+  },
+  {
+    path: "/voy",
+    element: <Voyind />,
+    children: [
+      {
+        path: "/voy/",
+        element: <SelectVoy />,
+        index: true,
+      },
+      {
+        path: "/voy/food",
+        element: <Login voy={true} />,
+      },
+      {
+        path: "/voy/items",
         element: <Login voy={false} />,
       },
     ],

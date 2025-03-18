@@ -33,7 +33,11 @@ const Login = ({ voy }: { voy: boolean }) => {
         setProb(res.status);
       } else {
         if (setUser) setUser(res.user);
-        if (res.user?.role === "admin") navigate("/admin");
+        if (res.user?.room) navigate("/voy");
+        else if (res.user?.role === "admin") navigate("/admin");
+        else if (res.user?.role === "manager") navigate("/manager");
+        else if (res.user?.role === "headcook") navigate("/headcook");
+        else if (res.user?.role === "supervisor") navigate("/supervisor");
       }
     }
   };

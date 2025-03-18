@@ -1,0 +1,30 @@
+.sel-con-voy {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  width: 90%;
+  max-width: 1200px;
+  padding: 40px;
+}
+
+.sel-con-voy button {
+  height: 40vh;
+  background-size: cover;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.sel-con-voy button:hover {
+  /* font-size: 1.6rem; */
+  font-weight: 200;
+}
+
+.img-bck {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  opacity: 0.4;
+}
