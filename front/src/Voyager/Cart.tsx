@@ -1,16 +1,20 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { cart } from "./Order";
 import close from "../assets/close.svg";
+import { postReq } from "../Utils/request";
+import { CruiseContext } from "../Context/AppContext";
 
 type props = {
   cart: cart[];
   setCart: React.Dispatch<React.SetStateAction<cart[]>>;
   setCartpop: React.Dispatch<React.SetStateAction<boolean>>;
+  food: boolean;
 };
 
-const Cart = ({ cart, setCart, setCartpop }: props) => {
+const Cart = ({ cart, setCart, setCartpop, food }: props) => {
   const [tot, setTot] = useState(0);
+  const { user } = useContext(CruiseContext);
 
   const incQnt = (i: number) => {
     setCart((pre) => {
@@ -18,6 +22,21 @@ const Cart = ({ cart, setCart, setCartpop }: props) => {
       copy[i].qnt += 1;
       return copy;
     });
+  };
+
+  const order = async () => {
+    const dat = await postReq("voy/order", {
+      items: cart,
+      room: user?.room,
+      user_Name: user?.name,
+      uid: user?._id,
+      food,
+      total: tot,
+    });
+    if (dat.status === "success") {
+      setCart([]);
+      setCartpop(false);
+    }
   };
 
   const decQnt = (i: number) => {
@@ -31,6 +50,11 @@ const Cart = ({ cart, setCart, setCartpop }: props) => {
       return copy;
     });
   };
+
+  useEffect(() => {
+    const t = cart.reduce((a: number, e) => a + e.price * e.qnt, 0);
+    setTot(t);
+  }, [cart]);
 
   return (
     <div
@@ -135,6 +159,16 @@ const Cart = ({ cart, setCart, setCartpop }: props) => {
             </div>
             <div
               style={{
+                display: "flex",
+                justifyContent: "flex-end",
+                padding: "0 10px",
+              }}
+            >
+              <p>TOTAL :₹</p>
+              <p>{tot}</p>
+            </div>
+            <div
+              style={{
                 width: "100%",
                 display: "grid",
                 gridTemplateColumns: "repeat(2,1fr)",
@@ -149,7 +183,7 @@ const Cart = ({ cart, setCart, setCartpop }: props) => {
               >
                 CLEAR
               </button>
-              <button>order</button>
+              <button onClick={order}>ORDER</button>
             </div>
           </div>
         ) : (

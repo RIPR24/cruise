@@ -30,7 +30,7 @@ const route: crbt[] = [
     name: "SET RESERVATIONS",
     description:
       "Set reservations To Our Fitness Center, Beauty Salon, Party Hall",
-    path: "/voy/modfood",
+    path: "/voy/book",
     img: "https://www.dailyindian.com/wp-content/uploads/2018/10/gyms-696x354.png",
   },
 ];

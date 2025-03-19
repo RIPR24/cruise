@@ -5,32 +5,25 @@ import logo from "../assets/cruise.svg";
 import clo from "../assets/close.svg";
 import { delReq, postReq, putReq, site } from "../Utils/request";
 import SrchdrpDown from "../Reusable/SrchdrpDown";
-
-type info = {
-  _id: string;
-  name: string;
-  price: number;
-  tags: string[];
-  description: string;
-  food: boolean;
-};
+import { item } from "../Voyager/Order";
 
 const ModFoodItems = ({ food }: { food: boolean }) => {
-  const def = {
+  const def: item = {
     _id: "",
     name: "",
     price: 0,
     tags: [],
     description: "",
-    food,
+    food: food,
+    img: "",
   };
   const [disable, setDisable] = useState(false);
   const { user, setUser } = useContext(CruiseContext);
   const navigate = useNavigate();
   const [prob, setProb] = useState("");
   const [img, setImg] = useState(false);
-  const [info, setInfo] = useState<info>(def);
-  const [starr, setStarr] = useState<info[]>([]);
+  const [info, setInfo] = useState<item>(def);
+  const [starr, setStarr] = useState<item[]>([]);
   const imgref = useRef<HTMLInputElement | null>(null);
   const tagref = useRef<HTMLInputElement | null>(null);
 
@@ -164,7 +157,7 @@ const ModFoodItems = ({ food }: { food: boolean }) => {
         <h1>MODIFY ITEM</h1>
         <div style={{ display: "flex", justifyContent: "center" }}>
           <h2>SELECT ITEM</h2>
-          <SrchdrpDown state={starr} setState={setInfo} />
+          <SrchdrpDown state={starr} setState={setInfo} setArr={undefined} />
         </div>
         <div className="regcon">
           <img src={logo} style={{ height: 45, width: 45 }} />

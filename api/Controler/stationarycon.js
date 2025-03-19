@@ -142,7 +142,11 @@ const OrderStuff = async (req, res) => {
   const data = req.body;
   try {
     const tim = new Date();
-    const ord = await OrderModel.create({ ...data, time: tim.to() });
+    const ord = await OrderModel.create({
+      ...data,
+      time: tim.toString(),
+      status: "ordered",
+    });
     if (ord) res.json({ status: "success", code: 200, ord });
     else res.json({ status: "failed" });
   } catch (error) {

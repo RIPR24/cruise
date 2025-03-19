@@ -1,29 +1,22 @@
 import React, { useState } from "react";
-
-type info = {
-  _id: string;
-  name: string;
-  price: number;
-  tags: string[];
-  description: string;
-  food: boolean;
-};
+import { item } from "../Voyager/Order";
 
 type props = {
-  state: info[];
-  setState: React.Dispatch<React.SetStateAction<info>>;
+  state: item[];
+  setState: React.Dispatch<React.SetStateAction<item>> | null;
+  setArr: React.Dispatch<React.SetStateAction<item[]>> | undefined;
 };
 
-const SrchdrpDown = ({ state, setState }: props) => {
+const SrchdrpDown = ({ state, setState, setArr }: props) => {
   const [srch, setSrch] = useState("");
   const [pnt, setPnt] = useState(0);
-  const [srharr, setSrharr] = useState<info[]>([]);
+  const [srharr, setSrharr] = useState<item[]>([]);
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     const val = e.code;
     if (val === "Enter") {
       if (srharr.length > 0) {
-        setState(srharr[pnt]);
+        if (setState) setState(srharr[pnt]);
         setPnt(0);
         setSrch("");
         setSrharr([]);
@@ -39,15 +32,16 @@ const SrchdrpDown = ({ state, setState }: props) => {
     const val = e.target.value;
     setSrch(val);
     if (val.length > 0) {
-      setSrharr(
-        [...state].filter(
-          (el) =>
-            el.name.toLowerCase().includes(val.toLowerCase()) ||
-            el.tags.includes(val.toLowerCase())
-        )
+      const copy = [...state].filter(
+        (el) =>
+          el.name.toLowerCase().includes(val.toLowerCase()) ||
+          el.tags.includes(val.toLowerCase())
       );
+      setSrharr(copy);
+      if (setArr) setArr(copy);
     } else {
       setSrharr([]);
+      if (setArr) setArr(state);
     }
   };
 
@@ -58,13 +52,14 @@ const SrchdrpDown = ({ state, setState }: props) => {
         value={srch}
         onChange={handleChange}
         onKeyDown={handleKeyDown}
+        placeholder="Search item"
       />
       <div className="drp-dwn">
         {srharr.map((el, i) => (
           <p
             key={el._id}
             onClick={() => {
-              setState(el);
+              if (setState) setState(el);
               setSrch("");
               setSrharr([]);
             }}

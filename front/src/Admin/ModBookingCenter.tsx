@@ -5,7 +5,7 @@ import { putReq, site } from "../Utils/request";
 import { CruiseContext } from "../Context/AppContext";
 import { useNavigate } from "react-router-dom";
 
-type slot = {
+export type slot = {
   from: string;
   to: string;
   price: number;
@@ -13,7 +13,7 @@ type slot = {
   sid: string;
 };
 
-type rs = {
+export type rs = {
   _id?: string;
   name: string;
   slots: slot[];
@@ -54,7 +54,7 @@ const ModBookingCenter = () => {
         const slots = [...pre.slots, { ...info, sid: Date.now().toString() }];
         return { ...pre, slots };
       });
-      setInfo(def);
+      setInfo((pre) => ({ ...pre, from: "", to: "" }));
     }
   };
 
@@ -74,7 +74,7 @@ const ModBookingCenter = () => {
       role: user?.role,
     });
     if (data.status === "success") {
-      setInfo((pre) => ({ ...pre, name: "", price: 0 }));
+      setInfo((pre) => ({ ...pre, price: 0 }));
     } else {
       if (data.code === 401) {
         if (setUser) setUser(null);
@@ -119,7 +119,7 @@ const ModBookingCenter = () => {
           </div>
           <img src={logo} style={{ height: 45, width: 45 }} />
           <h2>{rs.name || ""}</h2>
-          <div className="sta-inp-con">
+          <div>
             <div style={{ display: "flex", gap: 20 }}>
               <label htmlFor="from">
                 FROM :

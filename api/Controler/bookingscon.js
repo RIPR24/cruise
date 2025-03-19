@@ -12,19 +12,24 @@ const bookSlot = async (req, res) => {
       sid: data.sid,
       rsid: data.rsid,
     });
-    if (bk.length < slt.slots.max || 1) {
+    if (bk.some((e) => e.uid === data.uid)) {
+      res.json({ status: "You already booked that slot" });
+    } else if (bk.length < (slt.slots.max || 1)) {
       const tim = new Date();
       const book = await BookingModel.create({ ...data, time: tim.toString() });
       res.json({ status: "success", book });
     } else {
       res.json({ status: "Slot already booked" });
     }
+  } else {
     res.json({ status: "Failed" });
   }
 };
 
 const getBookings = async (req, res) => {
   const { rsid, date } = req.body;
-  const bk = await BookingModel.find({ date: date, rsid: rsid });
+  const bk = await BookingModel.find({ date: date, rsid: rsid }).sort("slot");
   res.json({ bk });
 };
+
+module.exports = { bookSlot, getBookings };

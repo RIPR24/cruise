@@ -55,7 +55,7 @@ button:hover {
 
 .srch-drop-con {
   position: relative;
-  width: 260px;
+  width: 300px;
 }
 
 .srch-drop-con input {
@@ -75,6 +75,12 @@ button:hover {
   display: flex;
   flex-direction: column;
   width: 100%;
+}
+
+.in-line {
+  display: flex;
+  gap: 20px;
+  align-items: center;
 }
 
 .dd {

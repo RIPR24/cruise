@@ -11,6 +11,11 @@ import VoyagerInfo from "../Admin/VoyagerInfo";
 import ModBookingCenter from "../Admin/ModBookingCenter";
 import Voyind from "../Voyager";
 import SelectVoy from "../Voyager/SelectVoy";
+import Order from "../Voyager/Order";
+import Booking from "../Voyager/Booking";
+import WatchItems from "../Stuff/WatchItems";
+import SelectMgr from "../Stuff/SelectMgr";
+import WatchBook from "../Stuff/WatchBook";
 
 export const AppRouter = createBrowserRouter([
   {
@@ -43,11 +48,15 @@ export const AppRouter = createBrowserRouter([
       },
       {
         path: "/voy/food",
-        element: <Login voy={true} />,
+        element: <Order food={true} />,
       },
       {
         path: "/voy/items",
-        element: <Login voy={false} />,
+        element: <Order food={false} />,
+      },
+      {
+        path: "/voy/book",
+        element: <Booking />,
       },
     ],
   },
@@ -89,5 +98,29 @@ export const AppRouter = createBrowserRouter([
         element: <ModBookingCenter />,
       },
     ],
+  },
+  {
+    path: "/manager",
+    element: <SelectMgr />,
+  },
+  {
+    path: "/mng/fc",
+    element: <WatchBook rsid="67d6e97194622f6645f5cce4" />,
+  },
+  {
+    path: "/mng/bs",
+    element: <WatchBook rsid="67d6e9262386dce3289d9052" />,
+  },
+  {
+    path: "/mng/ph",
+    element: <WatchBook rsid="67d6e98d60574ebd09e46835" />,
+  },
+  {
+    path: "/headcook",
+    element: <WatchItems food />,
+  },
+  {
+    path: "/supervisor",
+    element: <WatchItems food={false} />,
   },
 ]);
