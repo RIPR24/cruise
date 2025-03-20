@@ -172,4 +172,41 @@ input[type="date"] {
 .scr {
   width: 90vw;
   height: 20vw;
+  object-fit: fill;
+  rotate: 180deg;
+}
+
+.seat-row {
+  display: flex;
+  gap: 8px;
+}
+
+.seat-row p {
+  padding: 5px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 55px;
+  width: 55px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.row-con {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: center;
+  width: 100%;
+}
+
+.flt-con {
+  position: fixed;
+  top: 5vh;
+  right: 5vw;
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  z-index: 1;
+  align-items: flex-end;
 }

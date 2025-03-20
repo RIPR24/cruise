@@ -2,6 +2,10 @@ import { useNavigate } from "react-router-dom";
 
 const route = [
   {
+    name: "Movie Theater",
+    path: "/mng/movie",
+  },
+  {
     name: "Fitness Center",
     path: "/mng/fc",
   },

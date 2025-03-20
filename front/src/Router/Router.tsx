@@ -16,6 +16,8 @@ import Booking from "../Voyager/Booking";
 import WatchItems from "../Stuff/WatchItems";
 import SelectMgr from "../Stuff/SelectMgr";
 import WatchBook from "../Stuff/WatchBook";
+import Theater from "../Voyager/Theater";
+import WatchMovBook from "../Stuff/WatchMovBook";
 
 export const AppRouter = createBrowserRouter([
   {
@@ -57,6 +59,10 @@ export const AppRouter = createBrowserRouter([
       {
         path: "/voy/book",
         element: <Booking />,
+      },
+      {
+        path: "/voy/movie",
+        element: <Theater />,
       },
     ],
   },
@@ -102,6 +108,10 @@ export const AppRouter = createBrowserRouter([
   {
     path: "/manager",
     element: <SelectMgr />,
+  },
+  {
+    path: "/mng/movie",
+    element: <WatchMovBook />,
   },
   {
     path: "/mng/fc",

@@ -9,6 +9,7 @@ const MovBookSchema = new mongoose.Schema({
   uid: String,
   price: Number,
   date: String,
+  time: String,
 });
 
 const MovBookModel = mongoose.model("mov_book", MovBookSchema);
