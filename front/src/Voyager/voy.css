@@ -168,3 +168,8 @@ input[type="date"] {
   gap: 30px;
   place-items: center;
 }
+
+.scr {
+  width: 90vw;
+  height: 20vw;
+}
