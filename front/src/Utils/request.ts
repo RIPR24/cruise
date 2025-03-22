@@ -1,4 +1,4 @@
-const site = "http://localhost:8080/";
+const site = "https://cruise-api-ftfl.onrender.com/";
 const postReq = async (surl: string, data: {}) => {
   const res = await fetch(site + surl, {
     method: "POST",
