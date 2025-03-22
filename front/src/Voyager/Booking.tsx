@@ -9,9 +9,15 @@ type slt = {
   slot: string;
 };
 
+type booked = {
+  _id: string;
+  no: number;
+};
+
 const Booking = () => {
   const [rs, setRs] = useState<rs>({ name: "", slots: [] });
   const [slt, setSlt] = useState<slt>({ sid: "", slot: "" });
+  const [book, setBook] = useState<booked[]>([]);
   const [prob, setProb] = useState("");
   const [rslist, setRslist] = useState<rs[]>([]);
   const datref = useRef<HTMLInputElement>(null);
@@ -23,6 +29,14 @@ const Booking = () => {
     const data = await res.json();
     setRslist(data.rcs);
     setRs(data.rcs[0]);
+  };
+
+  const getBooked = async (rsid: string = rs._id || "") => {
+    const date = datref.current?.value;
+    if (date && rsid) {
+      const bok = await postReq("rs/booked", { rsid, date });
+      setBook(bok.rb);
+    }
   };
 
   const bookSlt = async () => {
@@ -56,7 +70,9 @@ const Booking = () => {
         <h3>SELECT BOOKING SPOTS</h3>
         <select
           onChange={(e) => {
-            setRs(rslist[Number(e.target.value)]);
+            const r = rslist[Number(e.target.value)];
+            setRs(r);
+            getBooked(r._id);
           }}
           name="rs"
           id="rs"
@@ -71,7 +87,7 @@ const Booking = () => {
       <h2>{rs.name.toUpperCase() || ""}</h2>
       <div className="in-line">
         <h3>SELECT DATE :</h3>
-        <input type="date" ref={datref} />
+        <input onChange={() => getBooked()} type="date" ref={datref} />
       </div>
       <div className="slt-con">
         {rs &&
@@ -86,6 +102,9 @@ const Booking = () => {
               >
                 <p>{el.from + " - " + el.to}</p>
                 <p>{"₹ " + el.price}</p>
+                <p>{`Slot left : ${
+                  el.max - (book.find((e) => e._id === el.sid)?.no || 0)
+                }`}</p>
               </div>
             );
           })}

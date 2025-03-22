@@ -55,4 +55,17 @@ const getAllBooked = async (req, res) => {
   res.json({ status: "success", booked });
 };
 
-module.exports = { getTht, modTht, getBooked, bookTicket, getAllBooked };
+const getVoyBooked = async (req, res) => {
+  const { uid } = req.body;
+  const booked = await MovBookModel.find({ uid });
+  res.json({ status: "success", booked });
+};
+
+module.exports = {
+  getTht,
+  modTht,
+  getBooked,
+  bookTicket,
+  getAllBooked,
+  getVoyBooked,
+};

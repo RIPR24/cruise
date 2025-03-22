@@ -22,19 +22,21 @@ const route = [
 const SelectMgr = () => {
   const navigate = useNavigate();
   return (
-    <div className="sel-con">
-      {route.map((el, i) => {
-        return (
-          <button
-            key={i}
-            onClick={() => {
-              navigate(el.path);
-            }}
-          >
-            {el.name}
-          </button>
-        );
-      })}
+    <div style={{ display: "grid", placeItems: "center" }}>
+      <div className="sel-con">
+        {route.map((el, i) => {
+          return (
+            <button
+              key={i}
+              onClick={() => {
+                navigate(el.path);
+              }}
+            >
+              {el.name}
+            </button>
+          );
+        })}
+      </div>
     </div>
   );
 };

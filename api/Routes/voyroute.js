@@ -1,6 +1,6 @@
-const { bookSlot } = require("../Controler/bookingscon");
+const { bookSlot, getVoyBookings } = require("../Controler/bookingscon");
 const { OrderStuff } = require("../Controler/stationarycon");
-const { bookTicket } = require("../Controler/Theatercon");
+const { bookTicket, getVoyBooked } = require("../Controler/Theatercon");
 const {
   LoginVoy,
   LogiViaTok,
@@ -17,5 +17,7 @@ voyroute.get("/all", GetAllVoy);
 voyroute.post("/order", OrderStuff);
 voyroute.post("/book", bookSlot);
 voyroute.post("/bookmov", bookTicket);
+voyroute.post("/tickets", getVoyBooked);
+voyroute.post("/reservation", getVoyBookings);
 
 module.exports = voyroute;

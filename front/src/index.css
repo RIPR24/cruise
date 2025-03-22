@@ -98,6 +98,13 @@ button:hover {
 
 .rc {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 5vh;
+  right: 5vw;
+}
+
+.logout {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 1;
 }

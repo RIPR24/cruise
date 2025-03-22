@@ -82,50 +82,52 @@ const WatchMovBook = () => {
   }, []);
 
   return (
-    <div className="orders-con">
-      <h1>WATCH BOOKINGS</h1>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >
-        <h2>SELECT TIME & DATE</h2>
-        <input type="date" onChange={dateChange} />
-        <div style={{ display: "flex", gap: 20, padding: 20 }}>
-          {tht.slots &&
-            tht.slots.map((el) => {
-              return (
-                <div
-                  className={slt?.sid === el.sid ? "slt prm" : "slt"}
-                  key={el.sid}
-                  onClick={() => {
-                    setSlt(el);
-                    getBooked(date, el.sid);
-                  }}
-                >
-                  <p>{el.from + " - " + el.to}</p>
-                </div>
-              );
-            })}
-        </div>
-      </div>
-      <div className="item-grid headings">
-        <p>Name</p>
-        <p>user id</p>
-        <p>Seat</p>
-        <p>Time</p>
-      </div>
-      {arr &&
-        arr.map((el) => (
-          <div key={el._id} className="item-grid">
-            <p>{el.cname}</p>
-            <p>{el.uid}</p>
-            <p>{el.seat}</p>
-            <p>{el.from}</p>
+    <div style={{ display: "grid", placeItems: "center" }}>
+      <div className="orders-con">
+        <h1>WATCH BOOKINGS</h1>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <h2>SELECT TIME & DATE</h2>
+          <input type="date" onChange={dateChange} />
+          <div style={{ display: "flex", gap: 20, padding: 20 }}>
+            {tht.slots &&
+              tht.slots.map((el) => {
+                return (
+                  <div
+                    className={slt?.sid === el.sid ? "slt prm" : "slt"}
+                    key={el.sid}
+                    onClick={() => {
+                      setSlt(el);
+                      getBooked(date, el.sid);
+                    }}
+                  >
+                    <p>{el.from + " - " + el.to}</p>
+                  </div>
+                );
+              })}
           </div>
-        ))}
+        </div>
+        <div className="item-grid headings">
+          <p>Name</p>
+          <p>user id</p>
+          <p>Seat</p>
+          <p>Time</p>
+        </div>
+        {arr &&
+          arr.map((el) => (
+            <div key={el._id} className="item-grid">
+              <p>{el.cname}</p>
+              <p>{el.uid}</p>
+              <p>{el.seat}</p>
+              <p>{el.from}</p>
+            </div>
+          ))}
+      </div>
     </div>
   );
 };

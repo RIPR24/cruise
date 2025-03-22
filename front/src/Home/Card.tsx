@@ -11,7 +11,7 @@ const Card = ({ prop }: { prop: prp }) => {
       <p>{prop.name}</p>
       <h2>{`SAIL FROM ${prop.place}`}</h2>
       <p>{`STARTING FROM ${prop.price}`}</p>
-      <h2>{`$${prop.price}`}</h2>
+      <h2>{`₹${prop.price}00`}</h2>
     </div>
   );
 };

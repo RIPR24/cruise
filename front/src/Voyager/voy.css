@@ -188,7 +188,6 @@ input[type="date"] {
   height: 55px;
   width: 55px;
   text-align: center;
-  cursor: pointer;
 }
 
 .row-con {
@@ -209,4 +208,26 @@ input[type="date"] {
   justify-content: space-between;
   z-index: 1;
   align-items: flex-end;
+}
+
+.book-card {
+  display: grid;
+  grid-template-columns: 40% 60%;
+  width: 95%;
+  max-width: 400px;
+  border-radius: 20px;
+  padding: 20px;
+  background-color: #f5f4f4;
+  border: 1px solid #2b2a2a;
+}
+
+.book-card-con {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  padding-top: 60px;
+  min-height: 100vh;
+  background-color: #777777;
 }

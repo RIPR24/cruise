@@ -14,7 +14,10 @@ const bookSlot = async (req, res) => {
     });
     if (bk.some((e) => e.uid === data.uid)) {
       res.json({ status: "You already booked that slot" });
-    } else if (bk.length < (slt.slots.max || 1)) {
+    } else if (
+      bk.length <
+      (bk.length, slt.slots.find((el) => el.sid === data.sid).max || 1)
+    ) {
       const tim = new Date();
       const book = await BookingModel.create({ ...data, time: tim.toString() });
       res.json({ status: "success", book });
@@ -26,10 +29,25 @@ const bookSlot = async (req, res) => {
   }
 };
 
+const getRsBooked = async (req, res) => {
+  const { rsid, date } = req.body;
+  const rb = await BookingModel.aggregate([
+    { $match: { date, rsid } },
+    { $group: { _id: "$sid", no: { $sum: 1 } } },
+  ]);
+  res.json({ rb });
+};
+
 const getBookings = async (req, res) => {
   const { rsid, date } = req.body;
   const bk = await BookingModel.find({ date: date, rsid: rsid }).sort("slot");
   res.json({ bk });
 };
 
-module.exports = { bookSlot, getBookings };
+const getVoyBookings = async (req, res) => {
+  const { uid } = req.body;
+  const bk = await BookingModel.find({ uid: uid }).sort("slot");
+  res.json({ bk });
+};
+
+module.exports = { bookSlot, getBookings, getVoyBookings, getRsBooked };

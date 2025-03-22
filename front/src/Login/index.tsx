@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "./log.css";
 import logo from "../assets/cruise.svg";
 import { useNavigate } from "react-router-dom";
@@ -33,14 +33,35 @@ const Login = ({ voy }: { voy: boolean }) => {
         setProb(res.status);
       } else {
         if (setUser) setUser(res.user);
-        if (res.user?.room) navigate("/voy");
-        else if (res.user?.role === "admin") navigate("/admin");
+        if (res.user?.room) {
+          navigate("/voy");
+          localStorage.setItem("tok", res.user.token || "");
+        } else if (res.user?.role === "admin") navigate("/admin");
         else if (res.user?.role === "manager") navigate("/manager");
         else if (res.user?.role === "headcook") navigate("/headcook");
         else if (res.user?.role === "supervisor") navigate("/supervisor");
       }
     }
   };
+
+  const loginTok = async (tok: string) => {
+    const res = await postReq("voy/logintok", { tok });
+    if (res.user?.room) {
+      if (setUser) setUser(res.user);
+      localStorage.setItem("tok", res.user.token || "");
+      navigate("/voy");
+    }
+  };
+
+  useEffect(() => {
+    if (voy) {
+      const tok = localStorage.getItem("tok");
+      if (tok) {
+        localStorage.removeItem("tok");
+        loginTok(tok);
+      }
+    }
+  }, []);
 
   return (
     <div

@@ -33,13 +33,13 @@ const LoginVoy = async (req, res) => {
 
 const LogiViaTok = async (req, res) => {
   const { tok } = req.body;
-  jwt.verify(tok, process.env.ACCESS_TOKEN, async (error, uid) => {
+  jwt.verify(tok, process.env.ACCESS_TOKEN, async (err, pl) => {
     if (err) {
       res.json({ status: "failed" });
     } else {
-      const user = await VoyagerModel.findById(uid);
+      const user = await VoyagerModel.findById(pl.id);
       if (user) {
-        const token = jwt.sign({ id: username }, process.env.ACCESS_TOKEN, {
+        const token = jwt.sign({ id: user._id }, process.env.ACCESS_TOKEN, {
           expiresIn: "48h",
         });
         res.json({

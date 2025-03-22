@@ -47,27 +47,29 @@ const WatchBook = ({ rsid }: { rsid: string }) => {
   }, []);
 
   return (
-    <div className="orders-con">
-      <h1>WATCH BOOKINGS</h1>
-      <div className="in-line">
-        <h3>SELECT DATE :</h3>
-        <input type="date" onChange={getData} ref={datref} />
+    <div style={{ display: "grid", placeItems: "center" }}>
+      <div className="orders-con">
+        <h1>WATCH BOOKINGS</h1>
+        <div className="in-line">
+          <h3>SELECT DATE :</h3>
+          <input type="date" onChange={getData} ref={datref} />
+        </div>
+        <div className="item-grid headings">
+          <p>Name</p>
+          <p>user id</p>
+          <p>Booking Time</p>
+          <p>Slot</p>
+        </div>
+        {arr &&
+          arr.map((el) => (
+            <div key={el._id} className="item-grid">
+              <p>{el.cname}</p>
+              <p>{el.uid}</p>
+              <p>{el.time.substring(0, 24)}</p>
+              <p>{el.slot}</p>
+            </div>
+          ))}
       </div>
-      <div className="item-grid headings">
-        <p>Name</p>
-        <p>user id</p>
-        <p>Booking Time</p>
-        <p>Slot</p>
-      </div>
-      {arr &&
-        arr.map((el) => (
-          <div key={el._id} className="item-grid">
-            <p>{el.cname}</p>
-            <p>{el.uid}</p>
-            <p>{el.time.substring(0, 24)}</p>
-            <p>{el.slot}</p>
-          </div>
-        ))}
     </div>
   );
 };

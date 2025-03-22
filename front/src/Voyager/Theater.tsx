@@ -119,6 +119,7 @@ const Theater = () => {
                             style={{
                               color: sn === seat ? "aquamarine" : "black",
                               backgroundImage: `url("${chk ? chr : chrd}")`,
+                              cursor: chk ? "not-allowed" : "pointer",
                             }}
                             onClick={() => {
                               if (!chk) {
@@ -143,6 +144,14 @@ const Theater = () => {
             alignItems: "center",
           }}
         >
+          <button
+            onClick={() => {
+              navigate("/voy/mybook");
+            }}
+            className="prm rc"
+          >
+            My Bookings
+          </button>
           <h2>SELECT TIME & DATE</h2>
           <input type="date" onChange={dateChange} />
           <div style={{ display: "flex", gap: 20, padding: 20 }}>
