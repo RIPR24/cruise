@@ -37,7 +37,7 @@ const Theater = () => {
   const [slt, setSlt] = useState<slt | null>(null);
   const [date, setDate] = useState("");
   const [seat, setSeat] = useState("");
-  const { user } = useContext(CruiseContext);
+  const { user, setPop } = useContext(CruiseContext);
   const navigate = useNavigate();
 
   const getData = async () => {
@@ -72,6 +72,7 @@ const Theater = () => {
       date,
     });
     if (bok.status === "success") {
+      if (setPop) setPop("Ticket booked");
       navigate("/voy/");
     }
   };

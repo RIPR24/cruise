@@ -18,7 +18,7 @@ const ModFoodItems = ({ food }: { food: boolean }) => {
     img: "",
   };
   const [disable, setDisable] = useState(false);
-  const { user, setUser } = useContext(CruiseContext);
+  const { user, setUser, setPop } = useContext(CruiseContext);
   const navigate = useNavigate();
   const [prob, setProb] = useState("");
   const [img, setImg] = useState(false);
@@ -88,6 +88,7 @@ const ModFoodItems = ({ food }: { food: boolean }) => {
         data = await putReq("admin/stalink", dat);
       }
       if (data.status === "success") {
+        if (setPop) setPop("Items Modified Successfully");
         navigate("/admin");
       } else {
         if (data.code === 401) {

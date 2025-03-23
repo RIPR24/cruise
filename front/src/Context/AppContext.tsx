@@ -12,18 +12,23 @@ export type user = {
 type Ccontext = {
   user: user;
   setUser: React.Dispatch<React.SetStateAction<user>> | null;
+  setPop: React.Dispatch<React.SetStateAction<string>> | null;
+  pop: string;
 };
 
 export const CruiseContext = createContext<Ccontext>({
   user: null,
   setUser: null,
+  pop: "",
+  setPop: null,
 });
 
 const AppContext = ({ children }: { children: JSX.Element }) => {
   const [user, setUser] = useState<user>(null);
+  const [pop, setPop] = useState("");
 
   return (
-    <CruiseContext.Provider value={{ user, setUser }}>
+    <CruiseContext.Provider value={{ user, setUser, pop, setPop }}>
       {children}
     </CruiseContext.Provider>
   );

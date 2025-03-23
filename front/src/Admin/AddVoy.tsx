@@ -18,7 +18,7 @@ type info = {
 
 const AddVoy = () => {
   const [disable, setDisable] = useState(false);
-  const { user, setUser } = useContext(CruiseContext);
+  const { user, setUser, setPop } = useContext(CruiseContext);
   const navigate = useNavigate();
   const [prob, setProb] = useState("");
   const [info, setInfo] = useState<info>({
@@ -47,6 +47,7 @@ const AddVoy = () => {
       role: user?.role,
     });
     if (res?.status === "success") {
+      if (setPop) setPop("Voyager registered");
       navigate("/admin");
     }
     if (res?.status) setProb(res.status);

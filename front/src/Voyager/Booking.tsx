@@ -21,7 +21,7 @@ const Booking = () => {
   const [prob, setProb] = useState("");
   const [rslist, setRslist] = useState<rs[]>([]);
   const datref = useRef<HTMLInputElement>(null);
-  const { user } = useContext(CruiseContext);
+  const { user, setPop } = useContext(CruiseContext);
   const navigate = useNavigate();
 
   const getData = async () => {
@@ -51,6 +51,7 @@ const Booking = () => {
         date,
       });
       if (data.status === "success") {
+        if (setPop) setPop("Slot booked");
         navigate("/voy/");
       } else {
         setProb(data.status);

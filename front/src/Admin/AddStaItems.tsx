@@ -15,7 +15,7 @@ type info = {
 
 const AddStaItems = ({ food }: { food: boolean }) => {
   const [disable, setDisable] = useState(false);
-  const { user, setUser } = useContext(CruiseContext);
+  const { user, setUser, setPop } = useContext(CruiseContext);
   const navigate = useNavigate();
   const [prob, setProb] = useState("");
   const [img, setImg] = useState(false);
@@ -90,6 +90,7 @@ const AddStaItems = ({ food }: { food: boolean }) => {
       }
       if (data.status === "success") {
         setInfo((pre) => ({ ...pre, name: "", price: 0, description: "" }));
+        if (setPop) setPop("Item added");
       } else {
         if (data.code === 401) {
           if (setUser) setUser(null);

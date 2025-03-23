@@ -33,7 +33,7 @@ const ModBookingCenter = () => {
   const [prob, setProb] = useState("");
   const [info, setInfo] = useState<slot>(def);
   const [disable, setDisable] = useState(false);
-  const { user, setUser } = useContext(CruiseContext);
+  const { user, setUser, setPop } = useContext(CruiseContext);
   const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -74,6 +74,7 @@ const ModBookingCenter = () => {
       role: user?.role,
     });
     if (data.status === "success") {
+      if (setPop) setPop("Booking Center Modified");
       setInfo((pre) => ({ ...pre, price: 0 }));
     } else {
       if (data.code === 401) {

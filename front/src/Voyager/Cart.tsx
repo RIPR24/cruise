@@ -14,7 +14,7 @@ type props = {
 
 const Cart = ({ cart, setCart, setCartpop, food }: props) => {
   const [tot, setTot] = useState(0);
-  const { user } = useContext(CruiseContext);
+  const { user, setPop } = useContext(CruiseContext);
 
   const incQnt = (i: number) => {
     setCart((pre) => {
@@ -35,6 +35,7 @@ const Cart = ({ cart, setCart, setCartpop, food }: props) => {
     });
     if (dat.status === "success") {
       setCart([]);
+      if (setPop) setPop("Items Ordered");
       setCartpop(false);
     }
   };
