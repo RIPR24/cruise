@@ -151,7 +151,7 @@ const AddStaItems = ({ food }: { food: boolean }) => {
                   </div>
                 ))}
             </div>
-            <label htmlFor="description"> DOCUMENT NO :</label>
+            <label htmlFor="description"> DESCRIPTION :</label>
             <textarea
               placeholder="DESCRIPTION"
               value={info.description}

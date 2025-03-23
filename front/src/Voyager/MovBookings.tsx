@@ -40,7 +40,7 @@ const MovBookings = () => {
               <p>TIME :</p>
               <p>{el.date + " " + el.from}</p>
               <p>Time of booking :</p>
-              <p>{el.time.substring(0, 24)}</p>
+              <p>{el.time && el.time.substring(0, 24)}</p>
               <p>SEAT :</p>
               <p>{el.seat}</p>
               <div

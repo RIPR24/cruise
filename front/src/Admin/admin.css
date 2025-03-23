@@ -59,6 +59,7 @@
 
 .voy-el {
   display: grid;
+  gap: 20;
   grid-template-columns: 1fr 1fr 0.5fr 1fr;
   border-radius: 5px;
   padding: 5px;
