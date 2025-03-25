@@ -3,6 +3,7 @@ import { postReq, site } from "../Utils/request";
 import { CruiseContext } from "../Context/AppContext";
 import { useNavigate } from "react-router-dom";
 import { rs } from "../Admin/ModBookingCenter";
+import MyBookings from "./MyBookings";
 
 type slt = {
   sid: string;
@@ -22,6 +23,7 @@ const Booking = () => {
   const [rslist, setRslist] = useState<rs[]>([]);
   const datref = useRef<HTMLInputElement>(null);
   const { user, setPop } = useContext(CruiseContext);
+  const [myord, setMyord] = useState(false);
   const navigate = useNavigate();
 
   const getData = async () => {
@@ -66,54 +68,68 @@ const Booking = () => {
   }, []);
 
   return (
-    <div className="book-con">
-      <div className="in-line">
-        <h3>SELECT BOOKING SPOTS</h3>
-        <select
-          onChange={(e) => {
-            const r = rslist[Number(e.target.value)];
-            setRs(r);
-            getBooked(r._id);
-          }}
-          name="rs"
-          id="rs"
-        >
-          {rslist.map((el, i) => (
-            <option value={i} key={el._id}>
-              {el.name}
-            </option>
-          ))}
-        </select>
-      </div>
-      <h2>{rs.name.toUpperCase() || ""}</h2>
-      <div className="in-line">
-        <h3>SELECT DATE :</h3>
-        <input onChange={() => getBooked()} type="date" ref={datref} />
-      </div>
-      <div className="slt-con">
-        {rs &&
-          rs.slots.map((el) => {
-            return (
-              <div
-                className={slt.sid === el.sid ? "slt sel" : "slt"}
-                key={el.sid}
-                onClick={() => {
-                  setSlt({ sid: el.sid, slot: el.from + " - " + el.to });
-                }}
-              >
-                <p>{el.from + " - " + el.to}</p>
-                <p>{"₹ " + el.price}</p>
-                <p>{`Slot left : ${
-                  el.max - (book.find((e) => e._id === el.sid)?.no || 0)
-                }`}</p>
-              </div>
-            );
-          })}
-      </div>
-      <p style={{ color: "red" }}>{prob}</p>
-      <button onClick={bookSlt} className="prm">
-        BOOK
+    <div style={{ width: "100%" }}>
+      <button
+        onClick={() => {
+          setMyord((p) => !p);
+        }}
+        className="prm rc"
+      >
+        {myord ? "Back" : "My Bookings"}
       </button>
+      {myord ? (
+        <MyBookings />
+      ) : (
+        <div className="book-con">
+          <div className="in-line">
+            <h3>SELECT BOOKING SPOTS</h3>
+            <select
+              onChange={(e) => {
+                const r = rslist[Number(e.target.value)];
+                setRs(r);
+                getBooked(r._id);
+              }}
+              name="rs"
+              id="rs"
+            >
+              {rslist.map((el, i) => (
+                <option value={i} key={el._id}>
+                  {el.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <h2>{rs.name.toUpperCase() || ""}</h2>
+          <div className="in-line">
+            <h3>SELECT DATE :</h3>
+            <input onChange={() => getBooked()} type="date" ref={datref} />
+          </div>
+          <div className="slt-con">
+            {rs &&
+              rs.slots.map((el) => {
+                return (
+                  <div
+                    className={slt.sid === el.sid ? "slt sel" : "slt"}
+                    key={el.sid}
+                    onClick={() => {
+                      setSlt({ sid: el.sid, slot: el.from + " - " + el.to });
+                    }}
+                  >
+                    <p>{el.from + " - " + el.to}</p>
+                    <p>{"₹ " + el.price}</p>
+                    <p>{`Slot left : ${
+                      el.max - (book.find((e) => e._id === el.sid)?.no || 0)
+                    }`}</p>
+                  </div>
+                );
+              })}
+          </div>
+          <p style={{ color: "red" }}>{prob}</p>
+          <button onClick={bookSlt} className="prm">
+            BOOK
+          </button>
+        </div>
+      )}
     </div>
   );
 };

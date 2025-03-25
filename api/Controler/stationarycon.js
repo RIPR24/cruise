@@ -167,7 +167,7 @@ const getAllOrder = async (req, res) => {
   res.json({ orders });
 };
 const getAllOrderUID = async (req, res) => {
-  const { food, uid } = req.body.food;
+  const { food, uid } = req.body;
   const orders = await OrderModel.find({ food, uid });
   res.json({ orders });
 };

@@ -5,24 +5,23 @@ import QRCode from "react-qr-code";
 
 type booking = {
   uid: string;
+  rsid: string;
   cname: string;
   name: string;
   time: string;
-  from: string;
+  slot: string;
   sid: string;
   date: string;
   _id: string;
-  price: number;
-  seat: string;
 };
 
-const MovBookings = () => {
+const MyBookings = () => {
   const { user } = useContext(CruiseContext);
   const [arr, setArr] = useState<booking[]>([]);
 
   const getData = async () => {
-    const data = await postReq("voy/tickets", { uid: user?._id });
-    setArr(data.booked);
+    const data = await postReq("voy/reservation", { uid: user?._id });
+    setArr(data.bk);
   };
 
   useEffect(() => {
@@ -35,14 +34,14 @@ const MovBookings = () => {
         arr.map((el) => {
           return (
             <div className="book-card" key={el._id}>
+              <p>CENTER :</p>
+              <p>{el.name}</p>
               <p>ID :</p>
               <p>{el._id}</p>
               <p>TIME :</p>
-              <p>{el.date + " " + el.from}</p>
+              <p>{el.date + " " + el.slot}</p>
               <p>Time of booking :</p>
               <p>{el.time && el.time.substring(0, 24)}</p>
-              <p>SEAT :</p>
-              <p>{el.seat}</p>
               <div
                 style={{
                   gridColumn: "1/3",
@@ -60,4 +59,4 @@ const MovBookings = () => {
   );
 };
 
-export default MovBookings;
+export default MyBookings;

@@ -4,6 +4,7 @@ import SrchdrpDown from "../Reusable/SrchdrpDown";
 import crt from "../assets/cart.svg";
 import Cart from "./Cart";
 import ItemCard from "./ItemCard";
+import Myorders from "./Myorders";
 
 export type cart = {
   _id: string;
@@ -27,6 +28,7 @@ const Order = ({ food }: { food: boolean }) => {
   const [fil, setFil] = useState<item[]>([]);
   const [cart, setCart] = useState<cart[]>([]);
   const [cartpop, setCartpop] = useState(false);
+  const [myord, setMyord] = useState(false);
 
   const getData = async () => {
     const dat = await postReq("item/getsta", { food });
@@ -38,30 +40,46 @@ const Order = ({ food }: { food: boolean }) => {
     getData();
   }, []);
   return (
-    <>
-      <div className="nav-ord">
-        <SrchdrpDown state={items} setArr={setFil} setState={null} />
-        <img
-          src={crt}
-          className="im-btn"
-          onClick={() => {
-            setCartpop((p) => !p);
-          }}
-        />
-      </div>
-      {cartpop && (
-        <Cart
-          setCart={setCart}
-          setCartpop={setCartpop}
-          cart={cart}
-          food={food}
-        />
+    <div style={{ width: "100%" }}>
+      <button
+        onClick={() => {
+          setMyord((p) => !p);
+        }}
+        className="prm rc"
+      >
+        {myord ? "Back" : "My Orders"}
+      </button>
+      {myord ? (
+        <Myorders food={food} />
+      ) : (
+        <>
+          <div className="nav-ord">
+            <SrchdrpDown state={items} setArr={setFil} setState={null} />
+            <img
+              src={crt}
+              className="im-btn"
+              onClick={() => {
+                setCartpop((p) => !p);
+              }}
+            />
+          </div>
+          {cartpop && (
+            <Cart
+              setCart={setCart}
+              setCartpop={setCartpop}
+              cart={cart}
+              food={food}
+            />
+          )}
+          <div className="items-con">
+            {fil &&
+              fil.map((el) => (
+                <ItemCard key={el._id} el={el} setCart={setCart} />
+              ))}
+          </div>
+        </>
       )}
-      <div className="items-con">
-        {fil &&
-          fil.map((el) => <ItemCard key={el._id} el={el} setCart={setCart} />)}
-      </div>
-    </>
+    </div>
   );
 };
 

@@ -5,13 +5,14 @@ import { CruiseContext } from "../Context/AppContext";
 import "./stuff.css";
 import { useNavigate } from "react-router-dom";
 
-type order = {
+export type order = {
   _id: string;
   items: cart[];
   status: string;
   total: number;
   user_Name: string;
   room: string;
+  time: string;
   uid: string;
 };
 

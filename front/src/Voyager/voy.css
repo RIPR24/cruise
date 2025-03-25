@@ -212,9 +212,9 @@ input[type="date"] {
 
 .book-card {
   display: grid;
-  grid-template-columns: 40% 60%;
+  grid-template-columns: 35% 65%;
   width: 95%;
-  max-width: 400px;
+  max-width: 420px;
   border-radius: 20px;
   padding: 20px;
   background-color: #f5f4f4;
