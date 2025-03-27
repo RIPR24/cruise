@@ -68,7 +68,7 @@ const Booking = () => {
   }, []);
 
   return (
-    <div style={{ width: "100%" }}>
+    <div style={{ width: "100%", display: "grid", placeItems: "center" }}>
       <button
         onClick={() => {
           setMyord((p) => !p);
