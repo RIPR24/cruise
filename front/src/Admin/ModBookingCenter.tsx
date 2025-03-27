@@ -123,7 +123,7 @@ const ModBookingCenter = () => {
           <div>
             <div style={{ display: "flex", gap: 20 }}>
               <label htmlFor="from">
-                FROM :
+                FROM/NAME :
                 <input
                   value={info.from}
                   type="text"
@@ -176,7 +176,7 @@ const ModBookingCenter = () => {
                       <p>{el.price}</p>
                       <p>{el.max}</p>
                     </div>
-                    <img src={clo} onClick={() => removeSlot(el.from)} />
+                    <img src={clo} onClick={() => removeSlot(el.sid)} />
                   </div>
                 ))}
             </div>
