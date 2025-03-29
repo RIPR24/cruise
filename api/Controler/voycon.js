@@ -2,32 +2,44 @@ const VoyagerModel = require("../Models/Voyager");
 const { createHmac, createCipheriv, createDecipheriv } = require("crypto");
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
+const retry = new Map();
 
 const LoginVoy = async (req, res) => {
   const { username, password } = req.body;
   const user = await VoyagerModel.findById(username);
-  if (user) {
-    const cpass = createHmac("sha256", process.env.KEY)
-      .update(password)
-      .digest("hex");
-    if (cpass === user.password) {
-      const token = jwt.sign({ id: username }, process.env.ACCESS_TOKEN, {
-        expiresIn: "48h",
-      });
-      res.json({
-        status: "success",
-        user: {
-          _id: user._id,
-          name: user.name,
-          room: user.room,
-          token: token,
-        },
-      });
-    } else {
-      res.json({ status: "Wrong Password" });
-    }
+  const ret = retry.get(username);
+  if (ret && ret.time + ret.cd > Date.now()) {
+    const rt = Math.floor((ret.time + ret.cd - Date.now()) / 1000);
+    res.json({ status: `Try again after ${rt}sec` });
   } else {
-    res.json({ status: "No User Found" });
+    if (user) {
+      const cpass = createHmac("sha256", process.env.KEY)
+        .update(password)
+        .digest("hex");
+      if (cpass === user.password) {
+        const token = jwt.sign({ id: username }, process.env.ACCESS_TOKEN, {
+          expiresIn: "48h",
+        });
+        res.json({
+          status: "success",
+          user: {
+            _id: user._id,
+            name: user.name,
+            room: user.room,
+            token: token,
+          },
+        });
+      } else {
+        if (ret) {
+          retry.set(username, { time: Date.now(), cd: ret.cd + 30000 });
+        } else {
+          retry.set(username, { time: Date.now(), cd: -30000 });
+        }
+        res.json({ status: "Wrong Password" });
+      }
+    } else {
+      res.json({ status: "No User Found" });
+    }
   }
 };
 
