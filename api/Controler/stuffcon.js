@@ -2,31 +2,46 @@ const StuffModel = require("../Models/Stuff");
 const { createHmac, randomBytes } = require("crypto");
 require("dotenv").config();
 const sid = new Map();
+const retry = new Map();
 
 const LoginStuff = async (req, res) => {
   const { username, password } = req.body;
-  const [user] = await StuffModel.find({ username: username });
-  if (user && password) {
-    const cpass = createHmac("sha256", process.env.KEY)
-      .update(password)
-      .digest("hex");
-    if (cpass === user.password) {
-      const token = randomBytes(32).toString("hex");
-      sid.set(user.username, { tok: token, rol: user.role });
-      res.json({
-        status: "success",
-        user: {
-          username: user.username,
-          name: user.name,
-          role: user.role,
-          token,
-        },
-      });
-    } else {
-      res.json({ status: "Wrong Password" });
-    }
+  const ret = retry.get(username);
+  if (ret && ret.time + ret.cd < Date.now()) {
+    const rt = (Date.now() - (ret.time + ret.cd)) / 1000;
+    res.json({ status: `Try again after ${rt}sec` });
   } else {
-    res.json({ status: "No User Found" });
+    const [user] = await StuffModel.find({ username: username });
+    if (user && password) {
+      const cpass = createHmac("sha256", process.env.KEY)
+        .update(password)
+        .digest("hex");
+      if (cpass === user.password) {
+        const token = randomBytes(32).toString("hex");
+        sid.set(user.username, { tok: token, rol: user.role });
+        if (ret) {
+          retry.delete(username);
+        }
+        res.json({
+          status: "success",
+          user: {
+            username: user.username,
+            name: user.name,
+            role: user.role,
+            token,
+          },
+        });
+      } else {
+        if (ret) {
+          retry.set(username, { time: Date.now(), cd: ret.cd + 30000 });
+        } else {
+          retry.set(username, { time: Date.now(), cd: -30000 });
+        }
+        res.json({ status: "Wrong Password" });
+      }
+    } else {
+      res.json({ status: "No User Found" });
+    }
   }
 };
 
