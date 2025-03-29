@@ -7,8 +7,8 @@ const retry = new Map();
 const LoginStuff = async (req, res) => {
   const { username, password } = req.body;
   const ret = retry.get(username);
-  if (ret && ret.time + ret.cd < Date.now()) {
-    const rt = (Date.now() - (ret.time + ret.cd)) / 1000;
+  if (ret && ret.time + ret.cd > Date.now()) {
+    const rt = (ret.time + ret.cd - Date.now()) / 1000;
     res.json({ status: `Try again after ${rt}sec` });
   } else {
     const [user] = await StuffModel.find({ username: username });
