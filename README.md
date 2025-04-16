@@ -16,6 +16,10 @@ Problem statement :
 
 Stuff Username and Password
 
+Voyeger :
+      username: asd11
+      password: asd11
+
 ADMIN :
       username: admin
       password: admin
